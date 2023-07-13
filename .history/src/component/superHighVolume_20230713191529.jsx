@@ -25,7 +25,6 @@ const SuperHighVolume = () => {
 
   const handleChange = (selectedOption) => {
     setSelected(selectedOption);
-    localStorage.setItem("watchList", JSON.stringify(selectedOption));
     console.log(`Option selected:`, selectedOption);
   };
 
@@ -45,12 +44,7 @@ const SuperHighVolume = () => {
   }, [searchStockName]);
   const { deleteTodoMutation } = useTodoMutuation();
 
-  const {
-    isLoading,
-    isError,
-    error,
-    data = [],
-  } = useQuery("todos", getTodos, { cacheTime: 1000 });
+  const { isLoading, isError, error, data = [] } = useQuery("todos", getTodos);
 
   const handledelete = (id) => {
     const arraysOrder = JSON.parse(localStorage.getItem("taskOrder"));

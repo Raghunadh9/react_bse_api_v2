@@ -50,7 +50,7 @@ const SuperHighVolume = () => {
     isError,
     error,
     data = [],
-  } = useQuery("todos", getTodos, { cacheTime: 1000 });
+  } = useQuery("todos", getTodos, { cacheTime: 5000 });
 
   const handledelete = (id) => {
     const arraysOrder = JSON.parse(localStorage.getItem("taskOrder"));

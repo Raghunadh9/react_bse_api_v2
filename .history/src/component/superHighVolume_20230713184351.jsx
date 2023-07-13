@@ -11,23 +11,9 @@ import GetVolume from "./GetVolume";
 import Popup from "reactjs-popup";
 import WatchList2 from "./watchList2";
 
-import Select from "react-select";
-
 const SuperHighVolume = () => {
   const [searchStockName, setSearchStockName] = useState("");
   const [bseapisearchresponse, setBseapisearchresponse] = useState("");
-  const options = [
-    { value: "1", label: "WatchList 1" },
-    { value: "2", label: "WatchList 2" },
-  ];
-
-  const [selected, setSelected] = useState(null);
-
-  const handleChange = (selectedOption) => {
-    setSelected(selectedOption);
-    localStorage.setItem("watchList", JSON.stringify(selectedOption));
-    console.log(`Option selected:`, selectedOption);
-  };
 
   const changeHandler = (e) => {
     setSearchStockName(e.target.value);
@@ -45,12 +31,7 @@ const SuperHighVolume = () => {
   }, [searchStockName]);
   const { deleteTodoMutation } = useTodoMutuation();
 
-  const {
-    isLoading,
-    isError,
-    error,
-    data = [],
-  } = useQuery("todos", getTodos, { cacheTime: 1000 });
+  const { isLoading, isError, error, data = [] } = useQuery("todos", getTodos);
 
   const handledelete = (id) => {
     const arraysOrder = JSON.parse(localStorage.getItem("taskOrder"));
@@ -280,14 +261,6 @@ const SuperHighVolume = () => {
   return (
     <div>
       <center>
-        <div className="w-fit mt-5">
-          <Select
-            options={options}
-            onChange={handleChange}
-            autoFocus={true}
-            placeholder="Select WatchList here..."
-          />
-        </div>
         <div className="md:w-2/3">
           <input
             id="hello"
@@ -296,7 +269,6 @@ const SuperHighVolume = () => {
             placeholder="Add Stock Here..."
             value={searchStockName}
             onChange={changeHandler}
-            disabled={selected === null ? true : false}
           />
           <div>
             <div

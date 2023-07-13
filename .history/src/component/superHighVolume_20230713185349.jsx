@@ -25,7 +25,6 @@ const SuperHighVolume = () => {
 
   const handleChange = (selectedOption) => {
     setSelected(selectedOption);
-    localStorage.setItem("watchList", JSON.stringify(selectedOption));
     console.log(`Option selected:`, selectedOption);
   };
 
@@ -45,12 +44,7 @@ const SuperHighVolume = () => {
   }, [searchStockName]);
   const { deleteTodoMutation } = useTodoMutuation();
 
-  const {
-    isLoading,
-    isError,
-    error,
-    data = [],
-  } = useQuery("todos", getTodos, { cacheTime: 1000 });
+  const { isLoading, isError, error, data = [] } = useQuery("todos", getTodos);
 
   const handledelete = (id) => {
     const arraysOrder = JSON.parse(localStorage.getItem("taskOrder"));
@@ -280,13 +274,8 @@ const SuperHighVolume = () => {
   return (
     <div>
       <center>
-        <div className="w-fit mt-5">
-          <Select
-            options={options}
-            onChange={handleChange}
-            autoFocus={true}
-            placeholder="Select WatchList here..."
-          />
+        <div className="md:w-2/3 mt-5">
+          <Select options={options} onChange={handleChange} autoFocus={true} />
         </div>
         <div className="md:w-2/3">
           <input
@@ -296,7 +285,6 @@ const SuperHighVolume = () => {
             placeholder="Add Stock Here..."
             value={searchStockName}
             onChange={changeHandler}
-            disabled={selected === null ? true : false}
           />
           <div>
             <div
