@@ -1,0 +1,53 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { db } from "../config";
+import { ref, onValue, remove, query, equalTo, get } from "firebase/database";
+import GetDetailsComponent from "./GetDetailsComponent";
+import GetVolume from "./GetVolume";
+
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
+
+const SuperHighVolume = () => {
+  const [data, setData] = useState([]);
+  const [searchStockName, setSearchStockName] = useState("");
+  const [bseData, setBseData] = useState([]);
+  const [bseapisearchresponse, setBseapisearchresponse] = useState("");
+
+  useEffect(() => {
+    const changeHandler = (e) => {
+      setSearchStockName(e.target.value);
+    };
+  });
+  useEffect(() => {
+    axios
+      .get(
+        `https://api.bseindia.com/Msource/90D/getQouteSearch.aspx?Type=EQ&text=${searchStockName}&flag=gq`
+      )
+      .then((res) => setBseapisearchresponse(res.data));
+    console.log(bseapisearchresponse);
+  }, [searchStockName]);
+  return (
+    <div>
+      <center>
+        <div className="md:w-2/3">
+          <input
+            className="mt-2 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+            type="text"
+            placeholder="Search Code Here..."
+            value={searchStockName}
+            onChange={changeHandler}
+          />
+          <div>
+            <div
+              className="bg-blue-300 text-white"
+              dangerouslySetInnerHTML={{ __html: bseapisearchresponse }}
+            />
+          </div>
+        </div>
+      </center>
+    </div>
+  );
+};
+
+export default SuperHighVolume;

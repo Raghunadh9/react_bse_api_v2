@@ -1,0 +1,19 @@
+{
+  "Meta Data": {
+  "1: Symbol": "RELIANCE.BSE",
+  "2: Indicator": "Relative Strength Index (RSI)",
+  "3: Last Refreshed": "2023-06-27",
+  "4: Interval": "weekly",
+  "5: Time Period": 10,
+  "6: Series Type": "open",
+  "7: Time Zone": "US/Eastern Time"
+  },
+  "Technical Analysis: RSI": {
+  "2023-06-27": {
+  "RSI": "54.8591"
+  },
+  "2023-06-23": {
+  "RSI": "63.3010"
+  },
+}
+}
