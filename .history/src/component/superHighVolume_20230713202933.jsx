@@ -120,7 +120,7 @@ const SuperHighVolume = () => {
                             : "text-green-600 font-bold"
                         }`}
                       >
-                        {""}
+                        {" "}
                         {todo.Change}
                       </td>{" "}
                       <td className="border border-black ">

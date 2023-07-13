@@ -121,7 +121,9 @@ const SuperHighVolume = () => {
                         }`}
                       >
                         {""}
-                        {todo.Change}
+                        {todo.Change.toString().includes("-")
+                          ? todo.Change
+                          : " " + todo.Change}
                       </td>{" "}
                       <td className="border border-black ">
                         <Popup
