@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "reactjs-popup/dist/index.css";
 import { useQuery } from "react-query";
-import { getTodos } from "../api/todoApis";
+import { getTodos2 } from "../api/todoApis";
 import { TrashIcon } from "@heroicons/react/24/solid";
 import useTodoMutuation from "./todoMutuation.js";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import GetDetailsComponent from "./GetDetailsComponent";
 import GetVolume from "./GetVolume";
 import Popup from "reactjs-popup";
-import WatchList2 from "./watchList2";
+import axios from "axios";
 
-const SuperHighVolume = () => {
+const watchList2 = () => {
   const [searchStockName, setSearchStockName] = useState("");
   const [bseapisearchresponse, setBseapisearchresponse] = useState("");
 
@@ -29,31 +28,30 @@ const SuperHighVolume = () => {
         console.log("Error fetching BSE API data:", error);
       });
   }, [searchStockName]);
-  const { deleteTodoMutation } = useTodoMutuation();
-
+  const { deleteTodoMutation2 } = useTodoMutuation();
   const {
     isLoading,
     isError,
     error,
     data = [],
-  } = useQuery("todos", getTodos, { cacheTime: 1000 });
+  } = useQuery("todos2", getTodos2, { cacheTime: 1000 });
 
   const handledelete = (id) => {
-    const arraysOrder = JSON.parse(localStorage.getItem("taskOrder"));
+    const arraysOrder = JSON.parse(localStorage.getItem("taskOrder2"));
     if (arraysOrder?.length) {
       const newArray = arraysOrder.filter((num) => num !== id);
-      localStorage.setItem("taskOrder", JSON.stringify(newArray));
+      localStorage.setItem("taskOrder2", JSON.stringify(newArray));
     }
-    deleteTodoMutation.mutate({ id });
+    deleteTodoMutation2.mutate({ id });
   };
 
   const [todos, updateTodos] = useState([]);
 
   useEffect(() => {
-    const arrayIdOrder = JSON.parse(localStorage.getItem("taskOrder"));
+    const arrayIdOrder = JSON.parse(localStorage.getItem("taskOrder2"));
     if (!arrayIdOrder && data.length) {
       const idsOrderArray = data.map((task) => task.scrip_cd);
-      localStorage.setItem("taskOrder", JSON.stringify(idsOrderArray));
+      localStorage.setItem("taskOrder2", JSON.stringify(idsOrderArray));
     }
     let myArray = [];
     if (arrayIdOrder?.length && data.length) {
@@ -77,11 +75,12 @@ const SuperHighVolume = () => {
 
     tasks.splice(result.destination.index, 0, reorderedItem);
     const idsOrderArray = tasks.map((task) => task.scrip_cd);
-    localStorage.setItem("taskOrder", JSON.stringify(idsOrderArray));
+    localStorage.setItem("taskOrder2", JSON.stringify(idsOrderArray));
     console.log(tasks);
 
     updateTodos(tasks);
   };
+  //Select
 
   let content;
 
@@ -92,7 +91,7 @@ const SuperHighVolume = () => {
   } else {
     content = (
       <DragDropContext onDragEnd={handleOnDragEnd}>
-        <Droppable droppableId="todos">
+        <Droppable droppableId="todos2">
           {(provided) => (
             <tbody {...provided.droppableProps} ref={provided.innerRef}>
               {todos.map((todo, index) => (
@@ -262,71 +261,50 @@ const SuperHighVolume = () => {
       </DragDropContext>
     );
   }
-
   return (
     <div>
-      <center></center>
-      <br />
-      <br />
-      <div className="flex gap-8">
-        <div className="flex-1">
-          <h1 className="font-bold mb-2 text-2xl">Watchlist1</h1>
-          <div className="w-full">
-            <input
-              id="hello"
-              className="mt-5 mb-5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-              type="text"
-              placeholder="Add Stock to Watchlist 1 Here..."
-              value={searchStockName}
-              onChange={changeHandler}
-              onClick={() =>
-                localStorage.setItem(
-                  "selectedWatchlist",
-                  JSON.stringify({
-                    id: 1,
-                  })
-                )
-              }
-            />
-            <div>
-              <div
-                className="bg-blue-300 text-white"
-                dangerouslySetInnerHTML={{ __html: bseapisearchresponse }}
-              />
-            </div>
-          </div>
-
-          <table className="table w-full">
-            <thead
-              style={{
-                background: "linear-gradient(270deg,#20bf55,#01baef)",
-                position: "sticky",
-                top: 0,
-                color: "#fff",
-              }}
-            >
-              <tr>
-                <th className="border border-black ">Drag</th>
-
-                <th className="border border-black ">S.No</th>
-                <th className="border border-black ">Name</th>
-                <th className="border border-black ">LTP</th>
-                <th className="border border-black ">Change</th>
-                <th className="border border-black ">Tr.v</th>
-                <th className="border border-black ">Volume</th>
-                <th className="border border-black ">Max.Uc</th>
-                <th className="border border-black ">Delete</th>
-              </tr>
-            </thead>
-            {content}
-          </table>
-        </div>
-        <div className="flex-1">
-          <WatchList2 />
+      <h1 className="font-bold mb-2 text-2xl">Watchlist 2</h1>
+      <div className="w-full">
+        <input
+          id="hello"
+          className="mt-5 mb-5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+          type="text"
+          placeholder="Add Stock to Watchlist 1 Here..."
+          value={searchStockName}
+          onChange={changeHandler}
+        />
+        <div>
+          <div
+            className="bg-blue-300 text-white"
+            dangerouslySetInnerHTML={{ __html: bseapisearchresponse }}
+          />
         </div>
       </div>
+      <table className="table w-full">
+        <thead
+          style={{
+            background: "linear-gradient(270deg,#20bf55,#01baef)",
+            position: "sticky",
+            top: 0,
+            color: "#fff",
+          }}
+        >
+          <tr>
+            <th className="border border-black ">Drag</th>
+            <th className="border border-black ">S.No</th>
+            <th className="border border-black ">Name</th>
+            <th className="border border-black ">LTP</th>
+            <th className="border border-black ">Change</th>
+            <th className="border border-black ">Tr.v</th>
+            <th className="border border-black ">Volume</th>
+            <th className="border border-black ">Max.Uc</th>
+            <th className="border border-black ">Delete</th>
+          </tr>
+        </thead>
+        {content}
+      </table>
     </div>
   );
 };
 
-export default SuperHighVolume;
+export default watchList2;

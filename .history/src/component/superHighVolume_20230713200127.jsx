@@ -274,19 +274,11 @@ const SuperHighVolume = () => {
           <div className="w-full">
             <input
               id="hello"
-              className="mt-5 mb-5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+              className="mt-5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
               type="text"
               placeholder="Add Stock to Watchlist 1 Here..."
               value={searchStockName}
               onChange={changeHandler}
-              onClick={() =>
-                localStorage.setItem(
-                  "selectedWatchlist",
-                  JSON.stringify({
-                    id: 1,
-                  })
-                )
-              }
             />
             <div>
               <div

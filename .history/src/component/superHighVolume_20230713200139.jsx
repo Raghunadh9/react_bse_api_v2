@@ -279,14 +279,6 @@ const SuperHighVolume = () => {
               placeholder="Add Stock to Watchlist 1 Here..."
               value={searchStockName}
               onChange={changeHandler}
-              onClick={() =>
-                localStorage.setItem(
-                  "selectedWatchlist",
-                  JSON.stringify({
-                    id: 1,
-                  })
-                )
-              }
             />
             <div>
               <div

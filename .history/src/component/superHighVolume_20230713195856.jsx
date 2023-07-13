@@ -265,36 +265,30 @@ const SuperHighVolume = () => {
 
   return (
     <div>
-      <center></center>
+      <center>
+        <div className="w-fit mt-5"></div>
+        <div className="md:w-2/3">
+          <input
+            id="hello"
+            className="mt-5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+            type="text"
+            placeholder="Add Stock Here..."
+            value={searchStockName}
+            onChange={changeHandler}
+          />
+          <div>
+            <div
+              className="bg-blue-300 text-white"
+              dangerouslySetInnerHTML={{ __html: bseapisearchresponse }}
+            />
+          </div>
+        </div>
+      </center>
       <br />
       <br />
       <div className="flex gap-8">
         <div className="flex-1">
           <h1 className="font-bold mb-2 text-2xl">Watchlist1</h1>
-          <div className="w-full">
-            <input
-              id="hello"
-              className="mt-5 mb-5 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-              type="text"
-              placeholder="Add Stock to Watchlist 1 Here..."
-              value={searchStockName}
-              onChange={changeHandler}
-              onClick={() =>
-                localStorage.setItem(
-                  "selectedWatchlist",
-                  JSON.stringify({
-                    id: 1,
-                  })
-                )
-              }
-            />
-            <div>
-              <div
-                className="bg-blue-300 text-white"
-                dangerouslySetInnerHTML={{ __html: bseapisearchresponse }}
-              />
-            </div>
-          </div>
 
           <table className="table w-full">
             <thead
