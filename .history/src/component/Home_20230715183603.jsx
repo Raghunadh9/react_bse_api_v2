@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../index.css";
 import useSWR from "swr";
-import GetDetailsComponent from "./GetDetailsComponent";
+// import GetDetailsComponent from "./GetDetailsComponent";
 import Popup from "reactjs-popup";
-const HighPercentWithVolume = () => {
+import axios from "axios";
+const Home = () => {
+  const GetDetailsComponent = (scrip_cd) => {
+    const [response, setResponse] = useState("");
+    axios
+      .get(`https://bse-api-server.vercel.app/getDetails?scripcode=${scrip_cd}`)
+      .then((response) => setResponse(response.data.PBpcUC));
+    return response.toString();
+  };
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
   const { data, error, isLoading } = useSWR(
@@ -17,17 +25,18 @@ const HighPercentWithVolume = () => {
     <div>
       <center>
         <div className="">
-          You're filtering High Volume with 2% above Percentage.
+          You're filtering only <b>Percentage</b>.
         </div>
       </center>
-
       <table className="mt-4 table w-full p-4">
         <thead
+          className="rounded-md"
           style={{
             background: "linear-gradient(270deg,#20bf55,#01baef)",
             position: "sticky",
             top: 0,
             color: "#fff",
+            borderRadius: 10,
           }}
         >
           <tr>
@@ -47,9 +56,8 @@ const HighPercentWithVolume = () => {
             <th className="border border-black ">Max U.C</th>
           </tr>
         </thead>
-        {data.Table.sort((a, b) => (a.trd_vol < b.trd_vol ? 1 : -1))
-          .filter((item) => item.change_percent > 2 && item.change_percent < 20)
-          .map((i, index) => {
+        {data.Table.sort((a, b) => b.change_percent - a.change_percent).map(
+          (i, index) => {
             return (
               <tbody key={index}>
                 <tr className="border border-black ">
@@ -95,7 +103,7 @@ const HighPercentWithVolume = () => {
                       position="right center"
                     >
                       <a
-                        href={`https://in.tradingview.com/chart/qmDo3C1P/?symbol=BSE%3A${i.Name}`}
+                        href={`https://in.tradingview.com/chart/qmDo3C1P/?symbol=BSE%3A${i.scripname}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -103,7 +111,7 @@ const HighPercentWithVolume = () => {
                       </a>{" "}
                       <hr />
                       <a
-                        href={`https://in.tradingview.com/chart/VViXq6AO/?symbol=BSE%3A${i.Name}`}
+                        href={`https://in.tradingview.com/chart/VViXq6AO/?symbol=BSE%3A${i.scripname}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -111,7 +119,7 @@ const HighPercentWithVolume = () => {
                       </a>
                       <hr />
                       <a
-                        href={`https://in.tradingview.com/chart/1gQFO9Ge/?symbol=BSE%3A${i.Name}`}
+                        href={`https://in.tradingview.com/chart/1gQFO9Ge/?symbol=BSE%3A${i.scripname}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -119,7 +127,7 @@ const HighPercentWithVolume = () => {
                       </a>
                       <hr />
                       <a
-                        href={`https://in.tradingview.com/chart/3QIPa6zQ/?symbol=BSE%3A${i.Name}`}
+                        href={`https://in.tradingview.com/chart/3QIPa6zQ/?symbol=BSE%3A${i.scripname}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -127,7 +135,7 @@ const HighPercentWithVolume = () => {
                       </a>
                       <hr />
                       <a
-                        href={`https://in.tradingview.com/chart/GYpMww4j/?symbol=BSE%3A${i.Name}`}
+                        href={`https://in.tradingview.com/chart/GYpMww4j/?symbol=BSE%3A${i.scripname}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -135,7 +143,7 @@ const HighPercentWithVolume = () => {
                       </a>
                       <hr />
                       <a
-                        href={`https://in.tradingview.com/chart/fPuBRHoA/?symbol=BSE%3A${i.Name}`}
+                        href={`https://in.tradingview.com/chart/fPuBRHoA/?symbol=BSE%3A${i.scripname}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -143,7 +151,7 @@ const HighPercentWithVolume = () => {
                       </a>
                       <hr />
                       <a
-                        href={`https://in.tradingview.com/chart/Ls1Vc76A/?symbol=BSE%3A${i.Name}`}
+                        href={`https://in.tradingview.com/chart/Ls1Vc76A/?symbol=BSE%3A${i.scripname}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -151,7 +159,7 @@ const HighPercentWithVolume = () => {
                       </a>
                       <hr />
                       <a
-                        href={`https://in.tradingview.com/chart/yenE16ib/?symbol=BSE%3A${i.Name}`}
+                        href={`https://in.tradingview.com/chart/yenE16ib/?symbol=BSE%3A${i.scripname}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -159,7 +167,7 @@ const HighPercentWithVolume = () => {
                       </a>
                       <hr />
                       <a
-                        href={`https://in.tradingview.com/chart/BxyKps7d/?symbol=BSE%3A${i.Name}`}
+                        href={`https://in.tradingview.com/chart/BxyKps7d/?symbol=BSE%3A${i.scripname}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -167,7 +175,7 @@ const HighPercentWithVolume = () => {
                       </a>
                       <hr />
                       <a
-                        href={`https://in.tradingview.com/chart/ZhZee2zq/?symbol=BSE%3A${i.Name}`}
+                        href={`https://in.tradingview.com/chart/ZhZee2zq/?symbol=BSE%3A${i.scripname}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -175,7 +183,7 @@ const HighPercentWithVolume = () => {
                       </a>
                       <hr />
                       <a
-                        href={`https://in.tradingview.com/chart/ZhZee2zq/?symbol=BSE%3A${i.Name}`}
+                        href={`https://in.tradingview.com/chart/ZhZee2zq/?symbol=BSE%3A${i.scripname}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -183,7 +191,7 @@ const HighPercentWithVolume = () => {
                       </a>
                       <hr />
                       <a
-                        href={`https://in.tradingview.com/chart/r37zOlcQ/?symbol=BSE%3A${i.Name}`}
+                        href={`https://in.tradingview.com/chart/r37zOlcQ/?symbol=BSE%3A${i.scripname}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -191,7 +199,7 @@ const HighPercentWithVolume = () => {
                       </a>
                       <hr />
                       <a
-                        href={`https://in.tradingview.com/chart/yvElZCzr/?symbol=BSE%3A${i.Name}`}
+                        href={`https://in.tradingview.com/chart/yvElZCzr/?symbol=BSE%3A${i.scripname}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -199,7 +207,7 @@ const HighPercentWithVolume = () => {
                       </a>
                       <hr />
                       <a
-                        href={`https://in.tradingview.com/chart/75frF6LZ/?symbol=BSE%3A${i.Name}`}
+                        href={`https://in.tradingview.com/chart/75frF6LZ/?symbol=BSE%3A${i.scripname}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -290,15 +298,17 @@ const HighPercentWithVolume = () => {
                   </td>
                   <td className="border border-black p-2">{i.trd_vol}</td>
                   <td className="border  border-black p-2 font-bold">
-                    <GetDetailsComponent scrip_cd={i.scrip_cd} />
+                    {/* <GetDetailsComponent scrip_cd={i.scrip_cd} /> */}
+                    {GetDetailsComponent(i.scrip_cd)}
                   </td>
                 </tr>
               </tbody>
             );
-          })}
+          }
+        )}
       </table>
     </div>
   );
 };
 
-export default HighPercentWithVolume;
+export default Home;
