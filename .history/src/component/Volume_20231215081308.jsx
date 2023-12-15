@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "../index.css";
 import useSWR from "swr";
+import GetDetailsComponent from "./GetDetailsComponent";
+
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
-const Fiftyto500 = () => {
+const Volume = () => {
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const [dataFromN, setDataFromN] = useState();
   const dataFromNumerology = async (name) => {
@@ -23,7 +25,7 @@ const Fiftyto500 = () => {
     }
   };
   const { data, error, isLoading } = useSWR("http://localhost:5005/", fetcher, {
-    refreshInterval: 1000,
+    refreshInterval: 60,
   });
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
@@ -31,9 +33,7 @@ const Fiftyto500 = () => {
   return (
     <div>
       <center>
-        <div className="">
-          You're filtering Rs.50-500 Ltp with high Percentage.
-        </div>
+        <div className="">You're filtering only High Volume.</div>
       </center>
 
       <table className="mt-4 table w-full p-4">
@@ -62,9 +62,8 @@ const Fiftyto500 = () => {
             {/* <th className="border border-black ">Max U.C</th> */}
           </tr>
         </thead>
-        {data.Table.filter((i) => i.ltradert > 50 && i.ltradert < 500)
-          .sort((a, b) => (a.trd_vol < b.trd_vol ? 1 : -1))
-          .map((i, index) => {
+        {data.Table.sort((a, b) => (a.trd_vol < b.trd_vol ? 1 : -1)).map(
+          (i, index) => {
             return (
               <tbody key={index}>
                 <tr className="border border-black ">
@@ -281,7 +280,7 @@ const Fiftyto500 = () => {
                       nested
                     >
                       {(close) => (
-                        <div className="modal">
+                        <div className="modal ">
                           <button
                             className="close absolute right-5 bg-red-500 rounded-full px-2 py-[2px] text-white"
                             onClick={close}
@@ -410,10 +409,11 @@ const Fiftyto500 = () => {
                 </tr>
               </tbody>
             );
-          })}
+          }
+        )}
       </table>
     </div>
   );
 };
 
-export default Fiftyto500;
+export default Volume;

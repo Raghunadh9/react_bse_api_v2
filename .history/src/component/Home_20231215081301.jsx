@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../index.css";
 import useSWR from "swr";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
-const Fiftyto500 = () => {
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+
+const Home = () => {
   const [dataFromN, setDataFromN] = useState();
   const dataFromNumerology = async (name) => {
     try {
@@ -22,9 +22,13 @@ const Fiftyto500 = () => {
       console.log(error);
     }
   };
+
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+
   const { data, error, isLoading } = useSWR("http://localhost:5005/", fetcher, {
-    refreshInterval: 1000,
+    refreshInterval: 60,
   });
+
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
 
@@ -32,17 +36,18 @@ const Fiftyto500 = () => {
     <div>
       <center>
         <div className="">
-          You're filtering Rs.50-500 Ltp with high Percentage.
+          You're filtering only <b>Percentage</b>.
         </div>
       </center>
-
       <table className="mt-4 table w-full p-4">
         <thead
+          className="rounded-md"
           style={{
             background: "linear-gradient(270deg,#20bf55,#01baef)",
             position: "sticky",
             top: 0,
             color: "#fff",
+            borderRadius: 10,
           }}
         >
           <tr>
@@ -62,9 +67,8 @@ const Fiftyto500 = () => {
             {/* <th className="border border-black ">Max U.C</th> */}
           </tr>
         </thead>
-        {data.Table.filter((i) => i.ltradert > 50 && i.ltradert < 500)
-          .sort((a, b) => (a.trd_vol < b.trd_vol ? 1 : -1))
-          .map((i, index) => {
+        {data.Table.sort((a, b) => b.change_percent - a.change_percent).map(
+          (i, index) => {
             return (
               <tbody key={index}>
                 <tr className="border border-black ">
@@ -410,10 +414,11 @@ const Fiftyto500 = () => {
                 </tr>
               </tbody>
             );
-          })}
+          }
+        )}{" "}
       </table>
     </div>
   );
 };
 
-export default Fiftyto500;
+export default Home;

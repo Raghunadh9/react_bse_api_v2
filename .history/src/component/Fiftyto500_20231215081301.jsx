@@ -23,7 +23,7 @@ const Fiftyto500 = () => {
     }
   };
   const { data, error, isLoading } = useSWR("http://localhost:5005/", fetcher, {
-    refreshInterval: 1000,
+    refreshInterval: 60,
   });
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;

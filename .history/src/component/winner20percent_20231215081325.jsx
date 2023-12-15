@@ -1,39 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../index.css";
 import useSWR from "swr";
 import Popup from "reactjs-popup";
-import "reactjs-popup/dist/index.css";
-const Fiftyto500 = () => {
+import GetDetailsComponent from "./GetDetailsComponent";
+const Winner = () => {
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
-  const [dataFromN, setDataFromN] = useState();
-  const dataFromNumerology = async (name) => {
-    try {
-      const response = await fetch(
-        `https://phinzi.com/convert?name=${name
-          .replace(/[0-9,.\-\/#!$%\^&\*;:{}=\-_`~()@\+\?><\[\]\+]/g, " ")
-          .replace("LTD", "Limited")
-          .replace("Ltd", "Limited")
-          .replace("ltd", "Limited")}`
-      );
-      const result = await response.json();
-      setDataFromN(result);
-      console.log(typeof dataFromN !== "undefined" && dataFromN.name_g2_block);
-    } catch (error) {
-      console.log(error);
+
+  const { data, error, isLoading } = useSWR(
+    "https://bse-api-server.vercel.app/",
+    fetcher,
+    {
+      refreshInterval: 60,
     }
-  };
-  const { data, error, isLoading } = useSWR("http://localhost:5005/", fetcher, {
-    refreshInterval: 1000,
-  });
+  );
+
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
 
   return (
     <div>
       <center>
-        <div className="">
-          You're filtering Rs.50-500 Ltp with high Percentage.
-        </div>
+        <div className="">You're filtering only High Volume.</div>
       </center>
 
       <table className="mt-4 table w-full p-4">
@@ -47,7 +34,7 @@ const Fiftyto500 = () => {
         >
           <tr>
             {" "}
-            <th className="border border-black ">S.no</th>
+            <th className={`border border-black `}>S.no</th>
             <th className="border border-black ">Name</th>
             <th className="border border-black ">Company Name</th>
             <th className="border border-black ">LTP</th>
@@ -59,15 +46,15 @@ const Fiftyto500 = () => {
             <th className="border border-black ">C.I</th>
             <th className="border border-black ">SC</th>
             <th className="border border-black ">Volume</th>
-            {/* <th className="border border-black ">Max U.C</th> */}
+            <th className="border border-black ">Max U.C</th>
           </tr>
         </thead>
-        {data.Table.filter((i) => i.ltradert > 50 && i.ltradert < 500)
-          .sort((a, b) => (a.trd_vol < b.trd_vol ? 1 : -1))
-          .map((i, index) => {
+        {data.Table.sort((a, b) => (a.trd_vol < b.trd_vol ? 1 : -1)).map(
+          (i, index) => {
+            const title = <GetDetailsComponent scrip_cd={i.scrip_cd} />;
             return (
               <tbody key={index}>
-                <tr className="border border-black ">
+                <tr className={`border border-black`}>
                   <td className="border border-black "> {index + 1}</td>
                   <td className="underline text-blue-500">
                     <a href={i.NSUrl} target="_blank" rel="noopener noreferrer">
@@ -266,124 +253,24 @@ const Fiftyto500 = () => {
                     </a>
                   </td>
                   <td className="border border-black p-2 underline text-blue-500">
-                    {/* <Modal /> */}
-
-                    <Popup
-                      trigger={
-                        <button
-                          className="button"
-                          onMouseOver={() => dataFromNumerology(i.LONG_NAME)}
-                        >
-                          N
-                        </button>
-                      }
-                      modal
-                      nested
+                    <a
+                      href={`https://advancedastra.onrender.com/${i.LONG_NAME.split(
+                        " - "
+                      )[0]
+                        .replaceAll("Ltd", "limited")
+                        .replaceAll("LTD", "limited")
+                        .replaceAll(".", " ")
+                        .replaceAll("-$", " ")
+                        .replaceAll("{", "")
+                        .replaceAll("}", "")
+                        .replaceAll("(", "")
+                        .replaceAll(")", "")
+                        .replaceAll("&", "and")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
-                      {(close) => (
-                        <div className="modal">
-                          <button
-                            className="close absolute right-5 bg-red-500 rounded-full px-2 py-[2px] text-white"
-                            onClick={close}
-                          >
-                            &times;
-                          </button>
-                          <div className="header text-center">
-                            {" "}
-                            {i.LONG_NAME}{" "}
-                          </div>
-                          <div className="content flex justify-center align-middle ">
-                            {" "}
-                            <div>
-                              <table
-                                border={2}
-                                className="border-2 border-black"
-                              >
-                                <thead className="border-2  border-black">
-                                  <tr className="border-2  border-black">
-                                    <th className="border-2  border-black">
-                                      Group
-                                    </th>
-                                    <th className="border-2  border-black">
-                                      Name
-                                    </th>
-                                    <th className="border-2  border-black">
-                                      Total
-                                    </th>
-                                    <th className="border-2  border-black">
-                                      V
-                                    </th>
-                                    <th className="border-2  border-black">
-                                      C
-                                    </th>
-                                  </tr>
-                                </thead>
-                                <tbody className="border-2  border-black">
-                                  <tr className="border-2  border-black">
-                                    <td className="border-2  border-black">
-                                      C
-                                    </td>
-                                    <td className="px-[20px] border-2  border-black">
-                                      <table
-                                        className="px-[20px] "
-                                        dangerouslySetInnerHTML={{
-                                          __html:
-                                            typeof dataFromN !== "undefined" &&
-                                            dataFromN?.name_g2_block,
-                                        }}
-                                      ></table>
-                                    </td>
-
-                                    <td className="border-2  border-black">
-                                      {dataFromN?.g2tot}
-                                    </td>
-                                    <td className="border-2  border-black">
-                                      {" "}
-                                      {dataFromN?.g2vtot}
-                                    </td>
-                                    <td className="border-2  border-black">
-                                      {" "}
-                                      {dataFromN?.g2nettot}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-2  border-black">
-                                    <td className="border-2  border-black">
-                                      P
-                                    </td>
-                                    <td className="px-[20px] border-2  border-black">
-                                      <table
-                                        className="px-[20px] "
-                                        dangerouslySetInnerHTML={{
-                                          __html:
-                                            typeof dataFromN !== "undefined" &&
-                                            dataFromN?.name_g3_block,
-                                        }}
-                                      ></table>
-                                    </td>
-
-                                    <td className="border-2  border-black">
-                                      {dataFromN?.g3tot}
-                                    </td>
-                                    <td className="border-2  border-black">
-                                      {" "}
-                                      {dataFromN?.g3vtot}
-                                    </td>
-                                    <td className="border-2  border-black">
-                                      {" "}
-                                      {dataFromN?.g3nettot}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                              <div className="">
-                                {" "}
-                                Total Letters - {dataFromN?.tot_letters}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </Popup>
+                      N
+                    </a>
                   </td>
                   <td className="border border-black p-2 underline text-blue-500">
                     <a
@@ -404,16 +291,18 @@ const Fiftyto500 = () => {
                     </a>
                   </td>
                   <td className="border border-black p-2">{i.trd_vol}</td>
-                  {/* <td className="border  border-black p-2 font-bold">
-                    <GetDetailsComponent scrip_cd={i.scrip_cd} />
-                  </td> */}
+                  <td className="border border-black p-2 font-bold">
+                    {/* {GetDetailsComponent(i.scrip_cd)} */}
+                    {title}
+                  </td>
                 </tr>
               </tbody>
             );
-          })}
+          }
+        )}
       </table>
     </div>
   );
 };
 
-export default Fiftyto500;
+export default Winner;
