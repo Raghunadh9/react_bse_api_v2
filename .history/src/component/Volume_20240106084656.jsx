@@ -1,45 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "../index.css";
 import useSWR from "swr";
-import Popup from "reactjs-popup";
-import axios from "axios";
-
 import GetDetailsComponent from "./GetDetailsComponent";
-import Modal from "./Modal";
-const Home = () => {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const openModal = () => {
-    setModalIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalIsOpen(false);
-  };
-
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
+const Volume = () => {
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
-
-  const { data, error, isLoading } = useSWR("http://localhost:5005/", fetcher);
-
+  const [dataFromN, setDataFromN] = useState();
+  const dataFromNumerology = async (name) => {
+    try {
+      const response = await fetch(
+        `https://phinzi.com/convert?name=${name
+          .replace(/[0-9,.\-\/#!$%\^&\*;:{}=\-_`~()@\+\?><\[\]\+]/g, " ")
+          .replace("LTD", "Limited")
+          .replace("Ltd", "Limited")
+          .replace("ltd", "Limited")}`
+      );
+      const result = await response.json();
+      setDataFromN(result);
+      console.log(typeof dataFromN !== "undefined" && dataFromN.name_g2_block);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const { data, error, isLoading } = useSWR("http://localhost:5005/", fetcher, {
+    refreshInterval: 1000,
+  });
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
 
   return (
     <div>
       <center>
-        <div className="">
-          You're filtering only <b>Percentage</b>.
-        </div>
+        <div className="">You're filtering only High Volume.</div>
       </center>
+
       <table className="mt-4 table w-full p-4">
         <thead
-          className="rounded-md"
           style={{
             background: "linear-gradient(270deg,#20bf55,#01baef)",
             position: "sticky",
             top: 0,
             color: "#fff",
-            borderRadius: 10,
           }}
         >
           <tr>
@@ -59,7 +62,7 @@ const Home = () => {
             {/* <th className="border border-black ">Max U.C</th> */}
           </tr>
         </thead>
-        {data.Table.sort((a, b) => b.change_percent - a.change_percent).map(
+        {data.Table.sort((a, b) => (a.trd_vol < b.trd_vol ? 1 : -1)).map(
           (i, index) => {
             return (
               <tbody key={index}>
@@ -263,16 +266,24 @@ const Home = () => {
                   </td>
                   <td className="border border-black p-2 underline text-blue-500">
                     {/* <Modal /> */}
-                    <button
-                      className="bg-blue-500 text-white  rounded hover:bg-blue-700"
-                      onClick={openModal}
+                    <a
+                      href={`https://miniphinzi.vercel.app/?name=${i.LONG_NAME.split(
+                        " - "
+                      )[0]
+                        .replaceAll("Ltd", "limited")
+                        .replaceAll("LTD", "limited")
+                        .replaceAll(".", " ")
+                        .replaceAll("-$", " ")
+                        .replaceAll("{", "")
+                        .replaceAll("}", "")
+                        .replaceAll("(", "")
+                        .replaceAll(")", "")
+                        .replaceAll("&", "and")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
-                      Open Modal
-                    </button>
-                    <Modal isOpen={modalIsOpen} onClose={closeModal}>
-                      <h2 className="text-2xl mb-4">Modal Content</h2>
-                      <p>This is the content of the modal.</p>
-                    </Modal>
+                      N
+                    </a>
                   </td>
                   <td className="border border-black p-2 underline text-blue-500">
                     <a
@@ -300,10 +311,10 @@ const Home = () => {
               </tbody>
             );
           }
-        )}{" "}
+        )}
       </table>
     </div>
   );
 };
 
-export default Home;
+export default Volume;

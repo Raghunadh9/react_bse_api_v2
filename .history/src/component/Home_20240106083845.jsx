@@ -5,14 +5,29 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 
 const Home = () => {
-  const [companyName, setCompanyName] = useState("");
-  const dataFromNumerology = (name) => {
-    console.log(name);
+  const [dataFromN, setDataFromN] = useState();
+  const dataFromNumerology = async (name) => {
+    try {
+      const response = await fetch(
+        `https://phinzi.com/convert?name=${name
+          .replace(/[0-9,.\-\/#!$%\^&\*;:{}=\-_`~()@\+\?><\[\]\+]/g, " ")
+          .replace("LTD", "Limited")
+          .replace("Ltd", "Limited")
+          .replace("ltd", "Limited")}`
+      );
+      const result = await response.json();
+      setDataFromN(result);
+      console.log(typeof dataFromN !== "undefined" && dataFromN.name_g2_block);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-  const { data, error, isLoading } = useSWR("http://localhost:5005/", fetcher);
+  const { data, error, isLoading } = useSWR("http://localhost:5005/", fetcher, {
+    refreshInterval: 1000,
+  });
 
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
@@ -256,42 +271,24 @@ const Home = () => {
                   </td>
                   <td className="border border-black p-2 underline text-blue-500">
                     {/* <Modal /> */}
-
-                    <Popup
-                      trigger={
-                        <button
-                          className="button"
-                          onClick={() => console.log("hai")}
-                        >
-                          N
-                        </button>
-                      }
-                      modal
-                      nested
+                    <a
+                      href={`https://miniphinzi.vercel.app/?name=${i.LONG_NAME.split(
+                        " - "
+                      )[0]
+                        .replaceAll("Ltd", "limited")
+                        .replaceAll("LTD", "limited")
+                        .replaceAll(".", " ")
+                        .replaceAll("-$", " ")
+                        .replaceAll("{", "")
+                        .replaceAll("}", "")
+                        .replaceAll("(", "")
+                        .replaceAll(")", "")
+                        .replaceAll("&", "and")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
-                      {(close) => (
-                        <div className="modal">
-                          <button className="close " onClick={close}>
-                            &times;
-                          </button>
-                          <div className="header"> {i.LONG_NAME} </div>
-                          <div className="content">
-                            {" "}
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Atque, a nostrum. Dolorem, repellat quidem ut,
-                            minima sint vel eveniet quibusdam voluptates
-                            delectus doloremque, explicabo tempore dicta
-                            adipisci fugit amet dignissimos?
-                            <br />
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Consequatur sit commodi beatae optio
-                            voluptatum sed eius cumque, delectus saepe
-                            repudiandae explicabo nemo nam libero ad, doloribus,
-                            voluptas rem alias. Vitae?
-                          </div>
-                        </div>
-                      )}
-                    </Popup>
+                      N
+                    </a>
                   </td>
                   <td className="border border-black p-2 underline text-blue-500">
                     <a

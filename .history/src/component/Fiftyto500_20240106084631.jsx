@@ -22,7 +22,9 @@ const Fiftyto500 = () => {
       console.log(error);
     }
   };
-  const { data, error, isLoading } = useSWR("http://localhost:5005/", fetcher);
+  const { data, error, isLoading } = useSWR("http://localhost:5005/", fetcher, {
+    refreshInterval: 1000,
+  });
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
 
@@ -265,123 +267,24 @@ const Fiftyto500 = () => {
                   </td>
                   <td className="border border-black p-2 underline text-blue-500">
                     {/* <Modal /> */}
-
-                    <Popup
-                      trigger={
-                        <button
-                          className="button"
-                          onMouseOver={() => dataFromNumerology(i.LONG_NAME)}
-                        >
-                          N
-                        </button>
-                      }
-                      modal
-                      nested
+                    <a
+                      href={`https://miniphinzi.vercel.app/?name=${i.LONG_NAME.split(
+                        " - "
+                      )[0]
+                        .replaceAll("Ltd", "limited")
+                        .replaceAll("LTD", "limited")
+                        .replaceAll(".", " ")
+                        .replaceAll("-$", " ")
+                        .replaceAll("{", "")
+                        .replaceAll("}", "")
+                        .replaceAll("(", "")
+                        .replaceAll(")", "")
+                        .replaceAll("&", "and")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
-                      {(close) => (
-                        <div className="modal">
-                          <button
-                            className="close absolute right-5 bg-red-500 rounded-full px-2 py-[2px] text-white"
-                            onClick={close}
-                          >
-                            &times;
-                          </button>
-                          <div className="header text-center">
-                            {" "}
-                            {i.LONG_NAME}{" "}
-                          </div>
-                          <div className="content flex justify-center align-middle ">
-                            {" "}
-                            <div>
-                              <table
-                                border={2}
-                                className="border-2 border-black"
-                              >
-                                <thead className="border-2  border-black">
-                                  <tr className="border-2  border-black">
-                                    <th className="border-2  border-black">
-                                      Group
-                                    </th>
-                                    <th className="border-2  border-black">
-                                      Name
-                                    </th>
-                                    <th className="border-2  border-black">
-                                      Total
-                                    </th>
-                                    <th className="border-2  border-black">
-                                      V
-                                    </th>
-                                    <th className="border-2  border-black">
-                                      C
-                                    </th>
-                                  </tr>
-                                </thead>
-                                <tbody className="border-2  border-black">
-                                  <tr className="border-2  border-black">
-                                    <td className="border-2  border-black">
-                                      C
-                                    </td>
-                                    <td className="px-[20px] border-2  border-black">
-                                      <table
-                                        className="px-[20px] "
-                                        dangerouslySetInnerHTML={{
-                                          __html:
-                                            typeof dataFromN !== "undefined" &&
-                                            dataFromN?.name_g2_block,
-                                        }}
-                                      ></table>
-                                    </td>
-
-                                    <td className="border-2  border-black">
-                                      {dataFromN?.g2tot}
-                                    </td>
-                                    <td className="border-2  border-black">
-                                      {" "}
-                                      {dataFromN?.g2vtot}
-                                    </td>
-                                    <td className="border-2  border-black">
-                                      {" "}
-                                      {dataFromN?.g2nettot}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-2  border-black">
-                                    <td className="border-2  border-black">
-                                      P
-                                    </td>
-                                    <td className="px-[20px] border-2  border-black">
-                                      <table
-                                        className="px-[20px] "
-                                        dangerouslySetInnerHTML={{
-                                          __html:
-                                            typeof dataFromN !== "undefined" &&
-                                            dataFromN?.name_g3_block,
-                                        }}
-                                      ></table>
-                                    </td>
-
-                                    <td className="border-2  border-black">
-                                      {dataFromN?.g3tot}
-                                    </td>
-                                    <td className="border-2  border-black">
-                                      {" "}
-                                      {dataFromN?.g3vtot}
-                                    </td>
-                                    <td className="border-2  border-black">
-                                      {" "}
-                                      {dataFromN?.g3nettot}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                              <div className="">
-                                {" "}
-                                Total Letters - {dataFromN?.tot_letters}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </Popup>
+                      N
+                    </a>
                   </td>
                   <td className="border border-black p-2 underline text-blue-500">
                     <a
