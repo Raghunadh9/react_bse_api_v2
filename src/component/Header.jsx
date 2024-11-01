@@ -22,6 +22,12 @@ const Header = () => {
           </button>
         </Link> */}
 
+<Link to={"/breakout-stocks-only"}>
+          <button className="px-5 py-1 rounded-md bg-white text-black hover:px-6  hover:border hover:bg-transparent hover:border-white mr-2 hover:text-white">
+            Breakout stocks
+          </button>
+        </Link>
+
         <Link to={"/50-500"}>
           <button className="px-5 py-1 rounded-md bg-white text-black hover:px-6  hover:border hover:bg-transparent hover:border-white mr-2 hover:text-white">
             Rs. 50-500

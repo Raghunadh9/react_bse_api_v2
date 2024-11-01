@@ -62,7 +62,7 @@ const Fiftyto500 = () => {
             {/* <th className="border border-black ">Max U.C</th> */}
           </tr>
         </thead>
-        {data.Table.filter((i) => i.ltradert > 50 && i.ltradert < 500)
+        {data.filter((i) => i.ltradert > 50 && i.ltradert < 500)
           .sort((a, b) => (a.trd_vol < b.trd_vol ? 1 : -1))
           .map((i, index) => {
             return (

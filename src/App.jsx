@@ -9,6 +9,7 @@ import Merit from "./component/Merit.jsx";
 import ProductPage from "./component/ProductPage.jsx";
 import SuperHighVolume from "./component/superHighVolume.jsx";
 import Winner20 from "./component/winner20percent.jsx";
+import BreakoutStocksOnly from "./component/breakoutStocksOnly.jsx";
 const App = () => {
   return (
     <div>
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="/convertToNumer" element={<ConvertToNumer />} />
           <Route path="/winners" element={<Winner20 />} />
           <Route path="/merit" element={<Merit />} />
+          <Route path="/breakout-stocks-only" element={<BreakoutStocksOnly />} />
           <Route path="/superhighvolumestocks" element={<SuperHighVolume />} />
           <Route
             path="/stock-share-price/:compName/:name/:id"

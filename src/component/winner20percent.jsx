@@ -49,7 +49,7 @@ const Winner = () => {
             <th className="border border-black ">Max U.C</th>
           </tr>
         </thead>
-        {data.Table.sort((a, b) => (a.trd_vol < b.trd_vol ? 1 : -1)).map(
+        {data.sort((a, b) => (a.trd_vol < b.trd_vol ? 1 : -1)).map(
           (i, index) => {
             const title = <GetDetailsComponent scrip_cd={i.scrip_cd} />;
             return (

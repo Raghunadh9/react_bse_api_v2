@@ -3,25 +3,27 @@ import "../index.css";
 import useSWR from "swr";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
+import { FaCheckCircle } from "react-icons/fa";
+import { IoCloseCircleSharp } from "react-icons/io5";
 
 const Home = () => {
-  const [dataFromN, setDataFromN] = useState();
-  const dataFromNumerology = async (name) => {
-    try {
-      const response = await fetch(
-        `https://phinzi.com/convert?name=${name
-          .replace(/[0-9,.\-\/#!$%\^&\*;:{}=\-_`~()@\+\?><\[\]\+]/g, " ")
-          .replace("LTD", "Limited")
-          .replace("Ltd", "Limited")
-          .replace("ltd", "Limited")}`
-      );
-      const result = await response.json();
-      setDataFromN(result);
-      console.log(typeof dataFromN !== "undefined" && dataFromN.name_g2_block);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const [dataFromN, setDataFromN] = useState();
+  // const dataFromNumerology = async (name) => {
+  //   try {
+  //     const response = await fetch(
+  //       `https://phinzi.com/convert?name=${name
+  //         .replace(/[0-9,.\-\/#!$%\^&\*;:{}=\-_`~()@\+\?><\[\]\+]/g, " ")
+  //         .replace("LTD", "Limited")
+  //         .replace("Ltd", "Limited")
+  //         .replace("ltd", "Limited")}`
+  //     );
+  //     const result = await response.json();
+  //     setDataFromN(result);
+  //     console.log(typeof dataFromN !== "undefined" && dataFromN.name_g2_block);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
@@ -64,10 +66,11 @@ const Home = () => {
             <th className="border border-black ">C.I</th>
             <th className="border border-black ">SC</th>
             <th className="border border-black ">Volume</th>
+            <th className="border border-black ">Breakout</th>
             {/* <th className="border border-black ">Max U.C</th> */}
           </tr>
         </thead>
-        {data.Table.sort((a, b) => b.change_percent - a.change_percent).map(
+        {data.sort((a, b) => b.change_percent - a.change_percent).map(
           (i, index) => {
             return (
               <tbody key={index}>
@@ -309,9 +312,9 @@ const Home = () => {
                     </a>
                   </td>
                   <td className="border border-black p-2">{i.trd_vol}</td>
-                  {/* <td className="border  border-black p-2 font-bold">
-                    <GetDetailsComponent scrip_cd={i.scrip_cd} />
-                  </td> */}
+                  <td className="border  border-black p-2 font-bold">
+                  {i.isBreakout?<FaCheckCircle color="green" size={30}/>:<IoCloseCircleSharp color="red"size={35}/>}
+                  </td>
                 </tr>
               </tbody>
             );
