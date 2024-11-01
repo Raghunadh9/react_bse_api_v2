@@ -66,7 +66,6 @@ const Home = () => {
             <th className="border border-black ">C.I</th>
             <th className="border border-black ">SC</th>
             <th className="border border-black ">Volume</th>
-            <th className="border border-black ">Breakout</th>
             {/* <th className="border border-black ">Max U.C</th> */}
           </tr>
         </thead>
@@ -312,9 +311,7 @@ const Home = () => {
                     </a>
                   </td>
                   <td className="border border-black p-2">{i.trd_vol}</td>
-                  <td className="border  border-black p-2 font-bold">
-                  {i.isBreakout?<FaCheckCircle color="green" size={30}/>:<IoCloseCircleSharp color="red"size={35}/>}
-                  </td>
+            
                 </tr>
               </tbody>
             );

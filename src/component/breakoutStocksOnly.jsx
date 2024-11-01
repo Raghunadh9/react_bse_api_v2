@@ -91,16 +91,12 @@ const Home = () => {
                   </td>
                   <td className="border border-black ">{i.breakoutValue}</td>
                   <td className="border border-black ">
-                    <span className="font-extrabold text-md text-green-700">
-                      {i.ltradert.toString().split(".")[0]}
+                    <span className="font-extrabold text-xl text-green-700">
+                      {i.ltradert}
                     </span>
-                    <span className=" text-xs">
-                      {i.ltradert.toString().split(".")[1] === undefined
-                        ? ".00"
-                        : "." + i.ltradert.toString().split(".")[1]}
-                    </span>
+                   
                   </td>
-                  <td className="border border-black p-2">
+                  <td className="border border-black p-2 text-xl">
                     {i.change_percent}
                   </td>
                   <td className="border border-black ">
