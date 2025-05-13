@@ -6,12 +6,12 @@ const GetDetailsComponent = ({ scrip_cd }) => {
 
   useEffect(() => {
     axios
-      .get(`https://bse-api-server.vercel.app/getDetails?scripcode=${scrip_cd}`)
+      .get(`http://localhost:5005/getDetails?scripcode=${scrip_cd}`)
       .then((res) => setTitle(res.data.PBpcUC))
       .catch((err) => console.log(err));
   }, [scrip_cd]);
 
-  return title.toString() === "5" ? "hello" : title;
+  return title.toString() === "5" ? "5" : title;
 };
 
 export default GetDetailsComponent;

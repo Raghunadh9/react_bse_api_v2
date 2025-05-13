@@ -5,6 +5,7 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoCloseCircleSharp } from "react-icons/io5";
+import GetDetailsComponent from "./GetDetailsComponent";
 
 const Home = () => {
   // const [dataFromN, setDataFromN] = useState();
@@ -66,11 +67,12 @@ const Home = () => {
             <th className="border border-black ">C.I</th>
             <th className="border border-black ">SC</th>
             <th className="border border-black ">Volume</th>
-            {/* <th className="border border-black ">Max U.C</th> */}
+            <th className="border border-black ">Max U.C</th>
           </tr>
         </thead>
-        {data.sort((a, b) => b.change_percent - a.change_percent).map(
-          (i, index) => {
+        {data
+          .sort((a, b) => b.change_percent - a.change_percent)
+          .map((i, index) => {
             return (
               <tbody key={index}>
                 <tr className="border border-black ">
@@ -311,12 +313,13 @@ const Home = () => {
                     </a>
                   </td>
                   <td className="border border-black p-2">{i.trd_vol}</td>
-            
+                  <td className="border  border-black p-2 font-bold">
+                    <GetDetailsComponent scrip_cd={i.scrip_cd} />
+                  </td>
                 </tr>
               </tbody>
             );
-          }
-        )}{" "}
+          })}{" "}
       </table>
     </div>
   );
