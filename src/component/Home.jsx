@@ -60,6 +60,7 @@ const Home = () => {
             <th className="border border-black ">Company Name</th>
             <th className="border border-black ">LTP</th>
             <th className="border border-black ">Now %</th>
+            <th className="border border-black ">Max U.C</th>
             <th className="border border-black ">Tr.v</th>
             <th className="border border-black ">Z</th>
             <th className="border border-black ">M.C</th>
@@ -67,7 +68,6 @@ const Home = () => {
             <th className="border border-black ">C.I</th>
             <th className="border border-black ">SC</th>
             <th className="border border-black ">Volume</th>
-            <th className="border border-black ">Max U.C</th>
           </tr>
         </thead>
         {data
@@ -105,7 +105,10 @@ const Home = () => {
                     </span>
                   </td>
                   <td className="border border-black p-2">
-                    {i.change_percent}
+                    {i.change_percent}%
+                  </td>
+                  <td className="border  border-black p-2 font-bold">
+                    <GetDetailsComponent scrip_cd={i.scrip_cd} />%
                   </td>
                   <td className="border border-black ">
                     <Popup
@@ -313,9 +316,6 @@ const Home = () => {
                     </a>
                   </td>
                   <td className="border border-black p-2">{i.trd_vol}</td>
-                  <td className="border  border-black p-2 font-bold">
-                    <GetDetailsComponent scrip_cd={i.scrip_cd} />
-                  </td>
                 </tr>
               </tbody>
             );
